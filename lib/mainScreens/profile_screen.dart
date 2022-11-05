@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:users_app/controller.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/widgets/info_design_ui.dart';
 
@@ -9,8 +11,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  var controller = Get.put(Maincontroller());
+
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -71,6 +77,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                   ),
                 )),
+            Obx(() => IconButton(
+
+                // tooltip: "asd",
+                onPressed: () {
+                  controller.changeTheme();
+                },
+                icon: Icon(
+                  controller.isDark.value ? Icons.light_mode : Icons.dark_mode,
+                  color: theme.iconTheme.color,
+                ))),
+            Text(
+              controller.isDark.value ? " Dark mode" : "Light mode",
+              style: TextStyle(color: theme.primaryColor),
+            )
           ],
         ),
       ),

@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -26,18 +26,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             //name
             Text(
               userModelCurrentInfo!.name!,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: theme.primaryColor,
                 fontSize: 50.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            const SizedBox(
+            SizedBox(
               height: 20,
               width: 200,
               child: Divider(
-                color: Colors.white,
+                color: theme.primaryColor,
                 height: 2,
                 thickness: 2,
               ),

@@ -1,21 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AboutScreen extends StatefulWidget
-{
-
+class AboutScreen extends StatefulWidget {
   @override
   State<AboutScreen> createState() => _AboutScreenState();
 }
 
-class _AboutScreenState extends State<AboutScreen>
-{
+class _AboutScreenState extends State<AboutScreen> {
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: ListView(
         children: [
           //image
@@ -31,62 +27,64 @@ class _AboutScreenState extends State<AboutScreen>
 
           Column(
             children: [
-            //company name
-              const Text(
+              //company name
+              Text(
                 "Oasis",
                 style: TextStyle(
                   fontSize: 30,
-                  color: Colors.white54,
+                  color: theme.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
 
               //about you And your company name info
-           const Text(
-             "This app has been developed by Merhawi "
-             "This is the world number one ride sharing app. Available for all "
-             "10K+ people already use this App ",
-             textAlign: TextAlign.center,
-             style: TextStyle(
-               fontSize: 16,
-               color: Colors.white54,
-             ),
-           ),
-
-              const SizedBox(height: 20,),
-
-              const Text(
+              Text(
                 "This app has been developed by Merhawi "
                 "This is the world number one ride sharing app. Available for all "
-                 "10K+ people already use this App ",
+                "10K+ people already use this App ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white54,
+                  color: theme.primaryColor,
                 ),
               ),
 
-              const SizedBox(height: 40,),
+              const SizedBox(
+                height: 20,
+              ),
+
+              Text(
+                "This app has been developed by Merhawi "
+                "This is the world number one ride sharing app. Available for all "
+                "10K+ people already use this App ",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: theme.primaryColor,
+                ),
+              ),
+
+              const SizedBox(
+                height: 40,
+              ),
 
               //close button
               ElevatedButton(
-                  onPressed: ()
-                  {
+                  onPressed: () {
                     SystemNavigator.pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white54,
+                    primary: theme.primaryColor,
                   ),
-                  child: const Text(
+                  child: Text(
                     "Close",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
-              ),
-          ],
+                    style: TextStyle(color: theme.primaryColor),
+                  )),
+            ],
           )
         ],
       ),

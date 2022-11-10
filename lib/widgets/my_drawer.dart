@@ -139,7 +139,7 @@ class _MyDrawerState extends State<MyDrawer> {
             },
             child: ListTile(
               leading: Icon(
-                Icons.info,
+                Icons.support_agent,
                 color: theme.primaryColor,
               ),
               title: Text(

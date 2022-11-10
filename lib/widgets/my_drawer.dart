@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:users_app/Support/support.dart';
 import 'package:users_app/mainScreens/about_screen.dart';
 import 'package:users_app/mainScreens/profile_screen.dart';
 import 'package:users_app/mainScreens/trips_history_screen.dart';
@@ -122,6 +123,27 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               title: Text(
                 "About",
+                style: TextStyle(color: theme.primaryColor),
+              ),
+            ),
+          ),
+
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (c) => Support_page(
+                            email: widget.email.toString(),
+                          )));
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.info,
+                color: theme.primaryColor,
+              ),
+              title: Text(
+                "Support",
                 style: TextStyle(color: theme.primaryColor),
               ),
             ),

@@ -7,6 +7,7 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
@@ -244,30 +245,35 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   locateUserPosition() async {
-    Position cPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    userCurrentPosition = cPosition;
+    try {
+      Position cPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      userCurrentPosition = cPosition;
 
-    LatLng latLngPosition =
-        LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
+      LatLng latLngPosition =
+          LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
 
-    CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 14);
+      CameraPosition cameraPosition =
+          CameraPosition(target: latLngPosition, zoom: 14);
 
-    newGoogleMapController!
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      newGoogleMapController!
+          .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String humanReadableAddress =
-        await AssistantMethods.searchAddressForGeographicCoOrdinates(
-            userCurrentPosition!, context);
-    print("this is your address = " + humanReadableAddress);
+      String humanReadableAddress =
+          await AssistantMethods.searchAddressForGeographicCoOrdinates(
+              userCurrentPosition!, context);
+      print("this is your address = " + humanReadableAddress);
 
-    userName = userModelCurrentInfo!.name!;
-    userEmail = userModelCurrentInfo!.email!;
+      userName = userModelCurrentInfo!.name!;
+      userEmail = userModelCurrentInfo!.email!;
 
-    initializeGeoFireListener();
+      initializeGeoFireListener();
 
-    AssistantMethods.readTripsKeysForOnlineUser(context);
+      AssistantMethods.readTripsKeysForOnlineUser(context);
+    } catch (e) {
+      Get.snackbar("$e", "");
+      print(e.toString());
+    }
   }
 
   @override

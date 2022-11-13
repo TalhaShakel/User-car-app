@@ -6,6 +6,7 @@ import '../models/directions_details_info.dart';
 final FirebaseAuth fAuth = FirebaseAuth.instance;
 User? currentFirebaseUser;
 UserModel? userModelCurrentInfo;
+bool ? block ;
 List dList = []; //online/active drivers Information List
 DirectionDetailsInfo? tripDirectionDetailsInfo;
 String? chosenDriverId="";

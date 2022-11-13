@@ -344,6 +344,11 @@ class _MainScreenState extends State<MainScreen> {
           driverName =
               (eventSnap.snapshot.value as Map)["driverName"].toString();
         });
+      }if ((eventSnap.snapshot.value as Map)["block"] != null) {
+        setState(() {
+          block =
+              (eventSnap.snapshot.value as Map)["block"];
+        });
       }
 
       if ((eventSnap.snapshot.value as Map)["status"] != null) {
@@ -629,7 +634,12 @@ class _MainScreenState extends State<MainScreen> {
     var theme = Theme.of(context);
     createActiveNearByDriverIconMarker();
 
-    return Scaffold(
+    return block == true? Center(
+            child: const Text(
+            "Driver is block for the admin",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ))
+        :  Scaffold(
       key: sKey,
       drawer: Container(
         width: 260,

@@ -18,7 +18,7 @@ void main() async {
       child: ChangeNotifierProvider(
         create: (context) => AppInfo(),
         child: GetMaterialApp(
-          title: 'Drivers App',
+          title: 'User App',
           darkTheme: CustomThemes.darkTheme,
           theme: CustomThemes.lightTheme,
           themeMode: ThemeMode.system,

@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/assistants/geofire_assistant.dart';
 import 'package:users_app/global/global.dart';
@@ -22,6 +23,8 @@ import 'package:users_app/widgets/pay_fare_amount_dialog.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
 
 import '../infoHandler/app_info.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class MainScreen extends StatefulWidget {
   @override
@@ -697,7 +700,7 @@ class _MainScreenState extends State<MainScreen> {
                 backgroundColor: theme.primaryColor,
                 child: Icon(
                   openNavigationDrawer ? Icons.menu : Icons.close,
-                  color: Colors.black54,
+                  color: theme.scaffoldBackgroundColor,
                 ),
               ),
             ),
@@ -920,99 +923,104 @@ class _MainScreenState extends State<MainScreen> {
                   horizontal: 24,
                   vertical: 20,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //status of ride
-                    Center(
-                      child: Text(
-                        driverRideStatus,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //status of ride
+                      Center(
+                        child: Text(
+                          driverRideStatus,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                
+                      const Divider(
+                        height: 2,
+                        thickness: 2,
+                        color: Colors.blueAccent,
+                      ),
+                
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                
+                      //driver vehicle details
+                      Text(
+                        driverCarDetails,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                
+                      const SizedBox(
+                        height: 2.0,
+                      ),
+                
+                      //driver name
+                      Text(
+                        driverName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                    ),
-
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-
-                    const Divider(
-                      height: 2,
-                      thickness: 2,
-                      color: Colors.blueAccent,
-                    ),
-
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-
-                    //driver vehicle details
-                    Text(
-                      driverCarDetails,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
+                
+                      const SizedBox(
+                        height: 20.0,
                       ),
-                    ),
-
-                    const SizedBox(
-                      height: 2.0,
-                    ),
-
-                    //driver name
-                    Text(
-                      driverName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                
+                      const Divider(
+                        height: 2,
+                        thickness: 2,
+                        color: Colors.blueAccent,
                       ),
-                    ),
-
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-
-                    const Divider(
-                      height: 2,
-                      thickness: 2,
-                      color: Colors.blueAccent,
-                    ),
-
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-
-                    //call driver button
-                    Center(
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          'tel://${driverPhone}';
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
-                        icon: const Icon(
-                          Icons.phone_android,
-                          color: Colors.black54,
-                          size: 22,
-                        ),
-                        label: const Text(
-                          "Call Driver",
-                          style: TextStyle(
+                
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                
+                      //call driver button
+                      Center(
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            //  launch('');
+                            print("tel:${driverPhone}");
+                             launchUrlString('tel:${driverPhone}');
+                            
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                          ),
+                          icon: const Icon(
+                            Icons.phone_android,
                             color: Colors.black54,
-                            fontWeight: FontWeight.bold,
+                            size: 22,
+                          ),
+                          label: const Text(
+                            "Call Driver",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

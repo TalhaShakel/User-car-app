@@ -53,10 +53,17 @@ dependencies:
   velocity_x: ^3.6.0
   flutter_stripe: ^6.0.0
   cloud_firestore: ^3.5.1
+  url_launcher: ^6.1.6
+  flutter_launcher_icons: "^0.9.0"
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  image_path: "images/logo1.jpg" 
+  android: true
+  ios: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

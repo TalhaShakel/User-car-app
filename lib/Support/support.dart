@@ -1,103 +1,109 @@
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:users_app/Support/chat.dart';
+import 'package:users_app/global/global.dart';
+import 'package:velocity_x/velocity_x.dart';
 
-// class Support_page extends StatelessWidget {
-//   const Support_page({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold();
-//   }
-// }
+final messageDao = MessageDao();
 
 class Support_page extends StatefulWidget {
-  String email;
-  Support_page({required this.email});
+  Support_page({super.key});
+
   @override
-  _Support_pageState createState() => _Support_pageState(email: email);
+  State<Support_page> createState() => _Support_pageState();
 }
 
 class _Support_pageState extends State<Support_page> {
-  String email;
-  _Support_pageState({required this.email});
+  var message = TextEditingController();
 
-  Stream<QuerySnapshot> _Support_pagetream = FirebaseFirestore.instance
-      .collection('Support_page')
-      .orderBy('time')
-      .snapshots();
+  void _sendMessage() {
+    if (message.text.trim() != "") {
+      final messag =
+          Message(message.text, DateTime.now(), "${userModelCurrentInfo!.id}");
+      messageDao.saveMessage(messag);
+      message.clear();
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: _Support_pagetream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("something is wrong");
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    var theme = Theme.of(context);
 
-        return ListView.builder(
-          itemCount: snapshot.data!.docs.length,
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          primary: true,
-          itemBuilder: (_, index) {
-            QueryDocumentSnapshot qs = snapshot.data!.docs[index];
-            Timestamp t = qs['time'];
-            DateTime d = t.toDate();
-            print(d.toString());
-            return Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Column(
-                crossAxisAlignment: email == qs['email']
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
+    return Scaffold(
+      appBar: AppBar(
+        title: "Support Chat".text.make(),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: FirebaseAnimatedList(
+            query: messageDao.getMessageQuery(),
+            itemBuilder: (context, snapshot, animation, index) {
+              final json = snapshot.value as Map<dynamic, dynamic>;
+              final message = Message.fromJson(json);
+              return Row(
+                mainAxisAlignment: (message.sender == userModelCurrentInfo!.id)
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 300,
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.purple,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+                  Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 2,
                       ),
-                      title: Text(
-                        qs['email'],
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: (message.sender == userModelCurrentInfo!.id)
+                            ? Colors.grey
+                            : Theme.of(context).colorScheme.secondary,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        message.text.toString(),
                         style: TextStyle(
-                          fontSize: 15,
+                          color: theme.primaryColor,
                         ),
-                      ),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: Text(
-                              qs['message'],
-                              softWrap: true,
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            d.hour.toString() + ":" + d.minute.toString(),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                      )),
                 ],
-              ),
-            );
-          },
-        );
-      },
+              );
+            },
+          )),
+          Container(
+            color: Colors.grey[200],
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            child: Row(
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    controller: message,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                        border: InputBorder.none, hintText: "Enter message"),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    try {
+                      _sendMessage();
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  icon: Icon(
+                    Icons.send,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

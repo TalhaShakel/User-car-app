@@ -134,7 +134,6 @@ class _MyDrawerState extends State<MyDrawer> {
                   context,
                   MaterialPageRoute(
                       builder: (c) => Support_page(
-                            email: widget.email.toString(),
                           )));
             },
             child: ListTile(

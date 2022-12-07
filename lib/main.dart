@@ -8,6 +8,7 @@ import 'package:users_app/our_themes.dart';
 import 'package:users_app/splashScreen/splash_screen.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // Stripe.publishableKey = 'your publish key';
